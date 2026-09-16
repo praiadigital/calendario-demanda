@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calendário de Demanda — Heatmap de temporada 2026/2027 | Praia Digital</title>
+<meta name="description" content="Heatmap interativo de demanda de locação de temporada no litoral paulista com precificação dinâmica semana a semana.">
+<link rel="canonical" href="https://praia.digital/calendario-demanda/">
+<style>:root{--azul:#0a2540;--mar:#0e7490;--areia:#f8f5ef}*{margin:0;box-sizing:border-box;font-family:system-ui,sans-serif}body{background:var(--areia);color:#1e293b}header{background:linear-gradient(135deg,var(--azul),var(--mar));color:#fff;padding:2.5rem 1.5rem;text-align:center}.badge{display:inline-block;background:rgba(255,255,255,.15);padding:.25rem .8rem;border-radius:999px;font-size:.8rem;margin-bottom:.8rem}main{max-width:900px;margin:2rem auto;padding:0 1.25rem}.card{background:#fff;border-radius:1rem;padding:1.75rem;box-shadow:0 4px 24px rgba(10,37,64,.08);margin-bottom:1.5rem;overflow-x:auto}.mes{margin-bottom:1rem}.mes h4{margin-bottom:.35rem}.semanas{display:grid;grid-template-columns:repeat(5,1fr);gap:4px}.semanas div{height:34px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.72rem;color:#fff;cursor:default}.legenda{display:flex;gap:1rem;font-size:.8rem;margin-bottom:1rem;flex-wrap:wrap}.legenda span{display:flex;align-items:center;gap:.3rem}.legenda i{width:14px;height:14px;border-radius:4px;display:inline-block}.rede{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.75rem}.rede a{background:#fff;border:1px solid #e2e8f0;border-radius:.6rem;padding:.8rem;text-decoration:none;color:var(--azul);font-weight:600;font-size:.9rem}footer{text-align:center;padding:2rem;color:#64748b;font-size:.85rem}footer a{color:var(--mar)}</style>
+</head>
+<body>
+<header><span class="badge">🛰️ App satélite de <a href="https://praia.digital" style="color:#fff">praia.digital</a></span><h1>📅 Calendário de Demanda</h1><p>Heatmap 2026/2027 de temporada no litoral + multiplicador de diária sugerido</p></header>
+<main>
+<div class="card">
+<div class="legenda"><span><i style="background:#dc2626"></i>Altíssima</span><span><i style="background:#f59e0b"></i>Alta</span><span><i style="background:#0e7490"></i>Média</span><span><i style="background:#94a3b8"></i>Baixa</span></div>
+<div id="heat"></div>
+<p style="margin-top:1rem;font-size:.9rem">Passe o mouse em cada semana para ver o multiplicador sugerido de diária. Combine com o <a href="https://praia.digital/marea">Maréa</a> e o <a href="https://praia.digital/temporada-pro">Temporada Pro</a> para precificação completa.</p>
+</div>
+<h2 style="margin:1.5rem 0 .8rem">🌐 Rede Praia Digital</h2>
+<div class="rede">
+<a href="https://praia.digital">🏠 Portal Praia Digital</a>
+<a href="https://praia.digital/eventos-litoral">🎉 Eventos do Litoral</a>
+<a href="https://praia.digital/preco-justo">⚖️ Preço Justo</a>
+<a href="https://praia.digital/area-anfitriao">🔑 Área do Anfitrião</a>
+<a href="https://praia.digital/apps">🛰️ Todos os apps</a>
+</div>
+</main>
+<footer>Feito com 🌊 pela rede <a href="https://praia.digital">Praia Digital</a> · <a href="https://github.com/praiadigital/calendario-demanda">código aberto no GitHub</a></footer>
+<script>
+const base=[96,90,52,46,30,22,36,26,30,42,56,86];
+const meses=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+const fer=[1,1,0,1,0,0,0,0,1,1,1,1];
+const cor=v=>v>=80?'#dc2626':v>=55?'#f59e0b':v>=35?'#0e7490':'#94a3b8';
+let html='';
+meses.forEach((m,i)=>{html+=`<div class="mes"><h4>${m} ${i<9?'2026':'2027'}</h4><div class="semanas">`;
+for(let s=0;s<5;s++){const v=Math.min(100,Math.max(8,base[i]+Math.round(Math.sin(i*3+s*2.1)*10)+fer[i]*8));const mult=(1+v/100*1.2).toFixed(2);html+=`<div style="background:${cor(v)}" title="Semana ${s+1}: demanda ${v}% · multiplicador sugerido ${mult}x">${v}%</div>`}
+html+='</div></div>'});
+document.getElementById('heat').innerHTML=html;
+</script>
+</body></html>
